@@ -357,11 +357,7 @@
                                       <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="cbCheckIn" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="cbCheckOut" alignment="0" min="-2" pref="153" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="159" max="-2" attributes="0"/>
                                       <Component id="jButton9" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -489,11 +485,7 @@
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                                   <Group type="102" alignment="0" attributes="0">
-                                                      <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
-                                                      <Component id="cbCheckIn" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                                      <Component id="cbCheckOut" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                                                       <Group type="103" groupAlignment="2" attributes="0">
                                                           <Component id="txtHari" alignment="2" min="-2" max="-2" attributes="0"/>
                                                           <Component id="jLabel18" alignment="2" min="-2" max="-2" attributes="0"/>
@@ -613,29 +605,6 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Check Out"/>
               </Properties>
-            </Component>
-            <Component class="org.freixas.jcalendar.JCalendarCombo" name="cbCheckIn">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="0"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbCheckInActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="org.freixas.jcalendar.JCalendarCombo" name="cbCheckOut">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="0"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="cbCheckOutFocusLost"/>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbCheckOutActionPerformed"/>
-                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="cbCheckOutPropertyChange"/>
-                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cbCheckOutKeyReleased"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel17">
               <Properties>

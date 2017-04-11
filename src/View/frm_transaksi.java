@@ -68,8 +68,6 @@ public class frm_transaksi extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        cbCheckIn = new org.freixas.jcalendar.JCalendarCombo();
-        cbCheckOut = new org.freixas.jcalendar.JCalendarCombo();
         jLabel17 = new javax.swing.JLabel();
         txtHari = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
@@ -252,33 +250,6 @@ public class frm_transaksi extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel16.setText("Check Out");
 
-        cbCheckIn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbCheckInActionPerformed(evt);
-            }
-        });
-
-        cbCheckOut.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                cbCheckOutFocusLost(evt);
-            }
-        });
-        cbCheckOut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbCheckOutActionPerformed(evt);
-            }
-        });
-        cbCheckOut.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                cbCheckOutPropertyChange(evt);
-            }
-        });
-        cbCheckOut.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                cbCheckOutKeyReleased(evt);
-            }
-        });
-
         jLabel17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel17.setText("Lama Inap");
 
@@ -418,10 +389,7 @@ public class frm_transaksi extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel18))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(cbCheckIn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cbCheckOut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(159, 159, 159)
                                 .addComponent(jButton9)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -521,11 +489,7 @@ public class frm_transaksi extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addGap(5, 5, 5)
-                                                .addComponent(cbCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(12, 12, 12)
-                                                .addComponent(cbCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(11, 11, 11)
+                                                .addGap(60, 60, 60)
                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                                                     .addComponent(txtHari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(jLabel18)))
@@ -908,8 +872,6 @@ config.manager konek = new manager();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.freixas.jcalendar.JCalendarCombo cbCheckIn;
-    private org.freixas.jcalendar.JCalendarCombo cbCheckOut;
     private javax.swing.JComboBox<String> cbDisk;
     private javax.swing.JComboBox<String> cnKelamin;
     private javax.swing.JButton jButton1;
