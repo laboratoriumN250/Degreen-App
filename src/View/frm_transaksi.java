@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  * @author Ari
  */
 public class frm_transaksi extends javax.swing.JFrame {
-
+//hallo
     /**
      * Creates new form frm_transaksi
      */
