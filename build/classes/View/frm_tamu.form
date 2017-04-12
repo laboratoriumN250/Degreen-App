@@ -413,7 +413,7 @@
             <Component class="javax.swing.JButton" name="bCari">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Icon/print.png"/>
+                  <Image iconType="3" name="/image/print.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Print Data Tamu"/>
               </Properties>
@@ -486,7 +486,7 @@
             <Component class="javax.swing.JButton" name="bAdd">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Icon/add.png"/>
+                  <Image iconType="3" name="/image/add.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Baru"/>
               </Properties>
@@ -497,7 +497,7 @@
             <Component class="javax.swing.JButton" name="bSave">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Icon/save.png"/>
+                  <Image iconType="3" name="/image/save.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Simpan"/>
               </Properties>
@@ -508,7 +508,7 @@
             <Component class="javax.swing.JButton" name="bEdit">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Icon/edit.png"/>
+                  <Image iconType="3" name="/image/edit.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ubah"/>
               </Properties>
@@ -519,7 +519,7 @@
             <Component class="javax.swing.JButton" name="bDelete">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Icon/delete.png"/>
+                  <Image iconType="3" name="/image/delete.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Hapus"/>
               </Properties>
@@ -530,7 +530,7 @@
             <Component class="javax.swing.JButton" name="bExit">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Icon/back.png"/>
+                  <Image iconType="3" name="/image/back.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Menu"/>
               </Properties>
