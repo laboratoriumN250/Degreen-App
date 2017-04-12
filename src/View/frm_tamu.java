@@ -5,17 +5,160 @@
  */
 package View;
 
+import config.manager;
+import entitas.EntitasTamu;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+
 /**
  *
  * @author Ari
  */
 public class frm_tamu extends javax.swing.JFrame {
+Connection con;
+Statement st;
+ResultSet rs;
 
+String Gender;
+String data[] = new String[6];
     /**
      * Creates new form frm_tamu
      */
     public frm_tamu() {
         initComponents();
+         this.setLocationRelativeTo(null);
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/db_hotel","root","");
+             st = con.createStatement();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Koneksi gagal");
+            e.printStackTrace();
+        }
+         tabel_tamu.setModel(tabelModel);
+        Tabel(tabel_tamu, new int[] {100,200,100,250,100});
+      setDefaultTable();
+    }
+    
+    private javax.swing.table.DefaultTableModel getDefaultTableModel(){
+        return new javax.swing.table.DefaultTableModel(new Object[][]{},
+        new String [] {"No KTP","Nama Tamu","Jenis Kelamin","Alamat","No Telpon"}) {
+        boolean[] canEdit = new boolean[]{
+            false,false,false,false,false
+        };
+                
+       @Override
+            public boolean isCellEditable(int rowIndex, int ColumnIndex) {
+                return canEdit[ColumnIndex]; //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        
+    }
+    
+    private javax.swing.table.DefaultTableModel tabelModel = getDefaultTableModel();
+    
+    public void tabel_kosong(){
+        int count = tabel_tamu.getRowCount();
+        int x = 1;
+        while (x<=count){
+            tabelModel.removeRow(0);
+            x = x+ 1;
+        }
+    }
+    
+    private void Tabel(javax.swing.JTable tb, int lebar[]){
+       tb.setAutoResizeMode(tb.AUTO_RESIZE_OFF);
+        int kolom = tb.getColumnCount();
+        
+        for (int i =0; i < kolom; i++){
+            javax.swing.table.TableColumn tbc = tb.getColumnModel().getColumn(i);
+            tbc.setPreferredWidth(lebar[i]);
+            tb.setRowHeight(17);
+        }
+    }
+    
+    private void setDefaultTable() {
+        try {
+             st =  con.createStatement();
+            
+            String sql = "Select * from tb_tamu order by Nama_Tamu ASC";
+            
+            ResultSet rs = st.executeQuery(sql);
+            
+            
+            while(rs.next()){
+            data[0] = rs.getString("No_KTP");
+            data[1] = rs.getString("Nama_Tamu");
+            data[2] = rs.getString("Jenis_Kelamin");
+            data[3] = rs.getString("Alamat");
+            data[4] = rs.getString("No_Telpon");
+                tabelModel.addRow(data);
+           
+            }
+            // rs.close();
+          // st.close();
+           
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        int tampil = tabel_tamu.getRowCount();
+        txttotaltamu.setText(""+tampil);
+    }
+    
+    void Gender(){
+        
+        if(cnKelamin.getSelectedItem().equals("Pria")){
+            
+            Gender ="Pria";
+        } else if (cnKelamin.getSelectedItem().equals("Wanita")){
+            Gender = "Wanita";
+        }
+    }
+    
+    void Clear(){
+    
+    txtKTP.setText("");
+    txtNama.setText("");
+    txtAlamat.setText("");
+    txttelpon.setText("");
+    txtKTP.requestFocus();
+        
+    
+    }
+    
+    void Cari () {
+        tabel_kosong();
+         try {
+            st =  con.createStatement();
+            
+            String sql = "Select * from tb_tamu where No_KTP like '%"+txtcari.getText()+"%'  or Nama_Tamu like '%"+txtcari.getText()+"%'  order by Nama_Tamu ASC";
+            
+            ResultSet rs = st.executeQuery(sql);
+            
+            
+            while(rs.next()){
+            data[0] = rs.getString("No_KTP");
+            data[1] = rs.getString("Nama_Tamu");
+            data[2] = rs.getString("Jenis_Kelamin");
+            data[3] = rs.getString("Alamat");
+            data[4] = rs.getString("No_Telpon");
+            tabelModel.addRow(data);
+            }
+           rs.close();
+           st.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -41,25 +184,26 @@ public class frm_tamu extends javax.swing.JFrame {
         cnKelamin = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtAlamat = new javax.swing.JTextArea();
-        txtTelp = new javax.swing.JTextField();
+        txttelpon = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabel_tamu = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
-        txtKTP1 = new javax.swing.JTextField();
-        jButton6 = new javax.swing.JButton();
+        txtcari = new javax.swing.JTextField();
+        bCari = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        txttotaltamu = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        bAdd = new javax.swing.JButton();
+        bSave = new javax.swing.JButton();
+        bEdit = new javax.swing.JButton();
+        bDelete = new javax.swing.JButton();
+        bExit = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1307, 608));
 
         jPanel14.setBackground(new java.awt.Color(102, 51, 0));
 
@@ -115,7 +259,7 @@ public class frm_tamu extends javax.swing.JFrame {
         txtAlamat.setRows(5);
         jScrollPane1.setViewportView(txtAlamat);
 
-        txtTelp.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txttelpon.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -131,7 +275,7 @@ public class frm_tamu extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtTelp)
+                    .addComponent(txttelpon)
                     .addComponent(cnKelamin, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtNama)
                     .addComponent(txtKTP)
@@ -166,14 +310,14 @@ public class frm_tamu extends javax.swing.JFrame {
                         .addComponent(jLabel5))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtTelp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txttelpon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 204, 102));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Data Tamu"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabel_tamu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -184,14 +328,35 @@ public class frm_tamu extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        tabel_tamu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabel_tamuMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tabel_tamu);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Cari Tamu");
 
-        txtKTP1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtcari.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtcari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtcariKeyReleased(evt);
+            }
+        });
 
-        jButton6.setText("Print Data Tamu");
+        bCari.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/print.png"))); // NOI18N
+        bCari.setText("Print Data Tamu");
+        bCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCariActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel10.setText("Total Data Tamu :");
+
+        txttotaltamu.setEnabled(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -202,11 +367,15 @@ public class frm_tamu extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 705, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bCari, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txttotaltamu, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtKTP1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -217,8 +386,10 @@ public class frm_tamu extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(txtKTP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10)
+                            .addComponent(txttotaltamu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(bCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -227,15 +398,45 @@ public class frm_tamu extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 204, 102));
         jPanel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jButton1.setText("Baru");
+        bAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/add.png"))); // NOI18N
+        bAdd.setText("Baru");
+        bAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAddActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Simpan");
+        bSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/save.png"))); // NOI18N
+        bSave.setText("Simpan");
+        bSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSaveActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Ubah");
+        bEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/edit.png"))); // NOI18N
+        bEdit.setText("Ubah");
+        bEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bEditActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Hapus");
+        bDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/delete.png"))); // NOI18N
+        bDelete.setText("Hapus");
+        bDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bDeleteActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("Batal");
+        bExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/back.png"))); // NOI18N
+        bExit.setText("Menu");
+        bExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bExitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -243,15 +444,15 @@ public class frm_tamu extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bSave, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bExit, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -259,11 +460,11 @@ public class frm_tamu extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bSave, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bExit, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -298,20 +499,20 @@ public class frm_tamu extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(25, 25, 25)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel9)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 53, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -332,6 +533,110 @@ public class frm_tamu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bExitActionPerformed
+
+    config.manager manager = new manager();
+    entitas.EntitasTamu tamu = new EntitasTamu();
+    private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
+        // TODO add your handling code here:
+        int reply = JOptionPane.showConfirmDialog(null, "Are You Sure?","Information",JOptionPane.YES_NO_OPTION);
+        if(txtKTP.getText().isEmpty()|| txtNama.getText().isEmpty() || txtAlamat.getText().isEmpty()|| txttelpon.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Data Harus Lengkap!","Warning",JOptionPane.WARNING_MESSAGE);
+        } else if(reply==0){
+            Gender();
+            tamu.setKTP(txtKTP.getText());
+            tamu.setNama(txtNama.getText());
+            tamu.setGender(Gender);
+            tamu.setAlamat(txtAlamat.getText());
+            tamu.setTelpon(txttelpon.getText());
+            
+            manager.Simpan(tamu);
+            tabel_kosong();
+            setDefaultTable();
+            
+        }
+    }//GEN-LAST:event_bSaveActionPerformed
+
+    private void bAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddActionPerformed
+        // TODO add your handling code here:
+        Clear();
+        txtKTP.setEnabled(true);
+        bEdit.setEnabled(false);
+        bDelete.setEnabled(false);
+        bSave.setEnabled(true);
+    }//GEN-LAST:event_bAddActionPerformed
+
+    private void bEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditActionPerformed
+        // TODO add your handling code here:
+         int reply = JOptionPane.showConfirmDialog(null, "Are You Sure?","Information",JOptionPane.YES_NO_OPTION);
+        Gender();
+        if(reply==0){
+            
+            tamu.setNama(txtNama.getText());
+            tamu.setGender(Gender);
+            tamu.setAlamat(txtAlamat.getText());
+            tamu.setTelpon(txttelpon.getText());
+            manager.Update(tamu);
+            tabel_kosong();
+            setDefaultTable();
+            Clear();
+            
+        }
+    }//GEN-LAST:event_bEditActionPerformed
+
+    private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
+        // TODO add your handling code here:
+        int reply = JOptionPane.showConfirmDialog(null, "Are You Sure?","Information",JOptionPane.YES_NO_OPTION);
+        if(reply==0){
+        tamu.setKTP(txtKTP.getText());
+        manager.Delete(tamu);
+        tabel_kosong();
+        setDefaultTable();
+        Clear();
+        }
+    }//GEN-LAST:event_bDeleteActionPerformed
+
+    private void tabel_tamuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel_tamuMouseClicked
+        // TODO add your handling code here:
+         if(evt.getClickCount() == 2){
+             bDelete.setEnabled(true);
+             bEdit.setEnabled(true);
+             bSave.setEnabled(false);
+            txtKTP.setEnabled(false);
+            int Baris = tabel_tamu.getSelectedRow();
+           
+            txtKTP.setText(tabel_tamu.getValueAt(Baris, 0).toString());
+            txtNama.setText(tabel_tamu.getValueAt(Baris, 1).toString());
+            cnKelamin.setSelectedItem(tabel_tamu.getValueAt(Baris, 2).toString());
+            txtAlamat.setText(tabel_tamu.getValueAt(Baris, 3).toString());
+            txttelpon.setText(tabel_tamu.getValueAt(Baris, 4).toString());
+    }                                      
+    }//GEN-LAST:event_tabel_tamuMouseClicked
+
+    private void bCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCariActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        try {
+            String NamaFile ="src/Reports/DataTamu.jasper"; //path file jasper
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            com.mysql.jdbc.Connection koneksi = (com.mysql.jdbc.Connection) DriverManager.getConnection("jdbc:mysql://localhost/db_hotel","root","");
+            
+            File file = new File(NamaFile);
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(file.getPath());
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, koneksi);
+            JasperViewer.viewReport(jasperPrint,false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_bCariActionPerformed
+
+    private void txtcariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcariKeyReleased
+        // TODO add your handling code here:
+        Cari();
+    }//GEN-LAST:event_txtcariKeyReleased
 
     /**
      * @param args the command line arguments
@@ -369,14 +674,15 @@ public class frm_tamu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bAdd;
+    private javax.swing.JButton bCari;
+    private javax.swing.JButton bDelete;
+    private javax.swing.JButton bEdit;
+    private javax.swing.JButton bExit;
+    private javax.swing.JButton bSave;
     private javax.swing.JComboBox<String> cnKelamin;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -393,11 +699,12 @@ public class frm_tamu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabel_tamu;
     private javax.swing.JTextArea txtAlamat;
     private javax.swing.JTextField txtKTP;
-    private javax.swing.JTextField txtKTP1;
     private javax.swing.JTextField txtNama;
-    private javax.swing.JTextField txtTelp;
+    private javax.swing.JTextField txtcari;
+    private javax.swing.JTextField txttelpon;
+    private javax.swing.JTextField txttotaltamu;
     // End of variables declaration//GEN-END:variables
 }
