@@ -253,6 +253,7 @@ String data[] = new String[6];
 
         txtNama.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        cnKelamin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cnKelamin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Pilih--", "Pria", "Wanita" }));
 
         txtAlamat.setColumns(20);
